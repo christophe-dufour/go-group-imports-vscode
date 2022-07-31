@@ -22,7 +22,7 @@ export const goGroupImportsWithLocal = async () => {
   const localPkg = await resolveLocalPackage();
   if (localPkg === '') {
     window.showErrorMessage(
-      'Failed to resolve local package, set it on your config file.'
+      'Failed to resolve local package, set groupImportsFromLocal.localPackage on your config file.'
     );
     return;
   }
