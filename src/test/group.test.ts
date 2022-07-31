@@ -47,6 +47,7 @@ suite('Group Test', () => {
       'database/sql',
       'github.com/jmoiron/sqlx',
       'test "github.com/blackdahila/testing"',
+      'galaxy github.com/heetch/galaxy-go/v2'
     ];
     const groupedImports = group(imports, ROOT, LOCAL);
 
@@ -58,6 +59,9 @@ suite('Group Test', () => {
       'github.com/blackdahila/package',
       'test "github.com/blackdahila/testing"',
     ]);
+    assert.deepEqual(groupedImports.local, [
+      'galaxy github.com/heetch/galaxy-go/v2',
+    ]);
     assert.deepEqual(groupedImports.stdlib, [
       'math',
       'fmt',
@@ -65,4 +69,67 @@ suite('Group Test', () => {
       'database/sql',
     ]);
   });
+
+  test('should work also when local and own colide', () => {
+    const imports = [
+      'avropassengerphase "github.com/heetch/contracts/pkg/generated/avro/phasing/passenger_phase"',
+      'avroorderphase "github.com/heetch/contracts/pkg/generated/avro/phasing/phases_for_order"',
+      'avropickup "github.com/heetch/contracts/pkg/generated/avro/pickup_experience/pickup_experience"',
+      'phasingapigrpc "github.com/heetch/contracts/pkg/phasing/api/v1"',
+      'phasingpb "github.com/heetch/contracts/pkg/phasing/v1"',
+      '"context"',
+      '"testing"',
+      '"time"',
+      '"github.com/Shopify/sarama"',
+      'qt "github.com/frankban/quicktest"',
+      '"github.com/google/go-cmp/cmp/cmpopts"',
+      'gouuid "github.com/google/uuid"',
+      'acidqtest "github.com/heetch/acidq/v2/kafka/kafkatest"',
+      '"github.com/heetch/avro/avroregistry"',
+      '"github.com/heetch/avro/avroregistrytest"',
+      'avrobr "github.com/heetch/contracts/pkg/generated/avro/booking/booking_request"',
+      'avrodriverphase "github.com/heetch/contracts/pkg/generated/avro/phasing/driver_phase"',
+      '"github.com/heetch/galaxy-go/v2/database/postgresql"',
+      '"github.com/heetch/universe/src/services/phasing/core/pkg/kafka"',
+      'pgtest "github.com/heetch/galaxy-go/v2/database/postgresql/postgresqltest"',
+      'kafkago "github.com/heetch/galaxy-go/v2/events/kafka"',
+      '"github.com/heetch/galaxy-go/v2/service/servicetest"',
+      '"github.com/heetch/galaxy-go/v2/ucontext"',
+      '"github.com/heetch/sqalx"'
+    ];
+
+    const groupedImports = group(imports, "github.com/heetch/universe/src/services/phasing/core", "github.com/heetch");
+    assert.deepEqual(groupedImports.thirdParty, [
+      '"github.com/Shopify/sarama"',
+      'qt "github.com/frankban/quicktest"',
+      '"github.com/google/go-cmp/cmp/cmpopts"',
+      'gouuid "github.com/google/uuid"',
+    ]);
+    assert.deepEqual(groupedImports.own, [
+      '"github.com/heetch/universe/src/services/phasing/core/pkg/kafka"',
+    ]);
+    assert.deepEqual(groupedImports.local, [
+      'avropassengerphase "github.com/heetch/contracts/pkg/generated/avro/phasing/passenger_phase"',
+      'avroorderphase "github.com/heetch/contracts/pkg/generated/avro/phasing/phases_for_order"',
+      'avropickup "github.com/heetch/contracts/pkg/generated/avro/pickup_experience/pickup_experience"',
+      'phasingapigrpc "github.com/heetch/contracts/pkg/phasing/api/v1"',
+      'phasingpb "github.com/heetch/contracts/pkg/phasing/v1"',
+      'acidqtest "github.com/heetch/acidq/v2/kafka/kafkatest"',
+      '"github.com/heetch/avro/avroregistry"',
+      '"github.com/heetch/avro/avroregistrytest"',
+      'avrobr "github.com/heetch/contracts/pkg/generated/avro/booking/booking_request"',
+      'avrodriverphase "github.com/heetch/contracts/pkg/generated/avro/phasing/driver_phase"',
+      '"github.com/heetch/galaxy-go/v2/database/postgresql"',
+      'pgtest "github.com/heetch/galaxy-go/v2/database/postgresql/postgresqltest"',
+      'kafkago "github.com/heetch/galaxy-go/v2/events/kafka"',
+      '"github.com/heetch/galaxy-go/v2/service/servicetest"',
+      '"github.com/heetch/galaxy-go/v2/ucontext"',
+      '"github.com/heetch/sqalx"'
+    ]);
+    assert.deepEqual(groupedImports.stdlib, [
+      '"context"',
+      '"testing"',
+      '"time"',
+    ]);
+  })
 });
