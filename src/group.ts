@@ -1,5 +1,5 @@
 import { Range, window, workspace, WorkspaceEdit, Position } from 'vscode';
-import { resolveRootPackage, getImportsRange, getImports } from './utils';
+import { resolveRootPackage, resolveLocalPackage, getImportsRange, getImports } from './utils';
 
 export const goGroupImportsWithLocal = async () => {
   const {
@@ -19,11 +19,20 @@ export const goGroupImportsWithLocal = async () => {
   }
   // TODO show error
 
+  const localPkg = await resolveLocalPackage();
+  if (localPkg === '') {
+    window.showErrorMessage(
+      'Failed to resolve local package, set it on your config file.'
+    );
+    return;
+  }
+  // TODO show error
+
   const imports = getImports(documentText);
 
   if (!imports.length) return;
 
-  const groupedList = group(imports, rootPkg);
+  const groupedList = group(imports, rootPkg, localPkg);
 
   const importsRange = getImportsRange(documentText);
 
@@ -41,6 +50,7 @@ export const goGroupImportsWithLocal = async () => {
 type ImportGroups = {
   stdlib: string[];
   thirdParty: string[];
+  local: string[];
   own: string[];
 };
 
@@ -52,16 +62,23 @@ const isOwnImport = (imp: string, root: string): boolean => {
   return imp.includes(root);
 };
 
-export const group = (imports: string[], rootPkg: string): ImportGroups => {
+const isLocalImport = (imp: string, local: string): boolean => {
+  return imp.includes(local);
+};
+
+export const group = (imports: string[], rootPkg: string, localPkg: string): ImportGroups => {
   const importGroups = <ImportGroups>{
     stdlib: [],
     thirdParty: [],
+    local: [],
     own: [],
   };
 
   imports.forEach((imp) => {
     if (isOwnImport(imp, rootPkg)) {
       importGroups.own.push(imp);
+    } else if (isLocalImport(imp, localPkg)) {
+      importGroups.local.push(imp);
     } else if (isStdlibImport(imp)) {
       importGroups.stdlib.push(imp);
     } else {

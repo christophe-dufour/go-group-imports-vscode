@@ -22,7 +22,7 @@ const registerWillSaveTextDocument = () => {
 };
 
 export const getOnSaveSetting = () => {
-  return workspace.getConfiguration('groupImports').get('onSave');
+  return workspace.getConfiguration('groupImportsWithLocal').get('onSave');
 };
 
 export const updateSaveRegistration = () =>
