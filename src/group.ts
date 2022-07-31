@@ -1,7 +1,7 @@
 import { Range, window, workspace, WorkspaceEdit, Position } from 'vscode';
 import { resolveRootPackage, getImportsRange, getImports } from './utils';
 
-export const goGroupImports = async () => {
+export const goGroupImportsWithLocal = async () => {
   const {
     activeTextEditor: editor,
     activeTextEditor: { document },

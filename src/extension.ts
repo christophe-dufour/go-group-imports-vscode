@@ -1,12 +1,12 @@
 'use strict';
 import { commands, ExtensionContext, workspace } from 'vscode';
-import { goGroupImports } from './group';
+import { goGroupImportsWithLocal } from './group';
 import { updateSaveRegistration } from './register';
 
 export function activate(context: ExtensionContext) {
   let disposable = commands.registerCommand(
-    'extension.goGroupImports',
-    goGroupImports
+    'extension.goGroupImportsWithLocal',
+    goGroupImportsWithLocal
   );
   context.subscriptions.push(disposable);
 
@@ -14,4 +14,4 @@ export function activate(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(updateSaveRegistration);
 }
 
-export function deactivate() {}
+export function deactivate() { }

@@ -1,9 +1,9 @@
 {
   "name": "go-group-imports",
-  "displayName": "Go Group Imports",
-  "description": "VSCode extension for separating imports in go files into three groups: stdlib, 3rdparty, own.",
-  "version": "1.1.4",
-  "publisher": "aleksandra",
+  "displayName": "Go Group Imports With Local",
+  "description": "VSCode extension for separating imports in go files into four groups: stdlib, 3rdparty, local, own.",
+  "version": "0.0.1",
+  "publisher": "christophe-dufour",
   "icon": "assets/logo.png",
   "galleryBanner": {
     "color": "#FFE779",
@@ -22,13 +22,13 @@
   ],
   "activationEvents": [
     "onLanguage:go",
-    "onCommand:extension.goGroupImports"
+    "onCommand:extension.goGroupImportsWithLocal"
   ],
   "main": "./out/extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.goGroupImports",
+        "command": "extension.goGroupImportsWithLocal",
         "title": "Group imports"
       }
     ],
@@ -38,7 +38,7 @@
         "groupImports.onSave": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically group imports on save."
+          "description": "Automatically group imports with local on save."
         }
       }
     }
@@ -57,9 +57,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beerose/go-group-imports-vscode.git"
+    "url": "https://github.com/christophe-dufour/go-group-imports-vscode.git"
   },
-  "homepage": "https://github.com/beerose/go-group-imports-vscode/blob/master/README.md",
+  "homepage": "https://github.com/christophe-dufour/go-group-imports-vscode/blob/master/README.md",
   "dependencies": {
     "@types/mocha": "^5.2.5",
     "mocha": "^5.2.0"
