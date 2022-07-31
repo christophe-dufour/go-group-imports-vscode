@@ -29,7 +29,7 @@ const resolveRootPackageWithGOPATH = () => {
   return rootPkg;
 };
 
-const resolveLocalPackage = () => {
+export const resolveLocalPackage = () => {
   return workspace.getConfiguration('groupImportsWithLocal').get('localPackage');
 }
 
