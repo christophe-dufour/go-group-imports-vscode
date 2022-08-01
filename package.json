@@ -29,16 +29,20 @@
     "commands": [
       {
         "command": "extension.goGroupImportsWithLocal",
-        "title": "Group imports"
+        "title": "Group imports with Local"
       }
     ],
     "configuration": {
-      "title": "Group Imports configuration",
+      "title": "Group Imports configuration including local",
       "properties": {
-        "groupImports.onSave": {
+        "groupImportsWithLocal.onSave": {
           "type": "boolean",
           "default": true,
           "description": "Automatically group imports with local on save."
+        },
+        "groupImportsWithLocal.localPackage": {
+          "type": "string",
+          "description": "Set your organization package for grouping. Eg: github.com/heetch"
         }
       }
     }
