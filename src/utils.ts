@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { window } from 'vscode';
+import { window, workspace } from 'vscode';
 const { readdir, readFile } = require('fs').promises;
 
 export const multilineImportsGroupRegex = /import \(([^)]+)\)/;
@@ -28,6 +28,10 @@ const resolveRootPackageWithGOPATH = () => {
 
   return rootPkg;
 };
+
+export const resolveLocalPackage = (): string | Promise < string >  =>{
+  return workspace.getConfiguration('groupImportsWithLocal').get('localPackage');
+}
 
 export const resolveRootPackage = () => {
   if (fileInGOPATH(process.env.GOPATH)) {
